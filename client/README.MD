@@ -232,8 +232,6 @@ return (
 
 #### Register Page - Setup
 
-- show preview in Browser and themes
-
 ```js
 import { useState, useEffect } from 'react'
 import { Logo } from '../components'
