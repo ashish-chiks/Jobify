@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./db/connect.js";
+import "express-async-errors";
 //middlewares
 import notFoundMiddlware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/errorHandler.js";
@@ -11,9 +12,9 @@ import jobsRouter from "./routes/jobs.js";
 dotenv.config();
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Home");
-});
+// app.get("/api/v1", (req, res) => {
+//   res.json({name: "john"});
+// });
 app.use(express.json());
 
 const baseURL = "/api/v1/";

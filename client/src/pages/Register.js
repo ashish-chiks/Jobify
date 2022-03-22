@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Wrapper from "../assets/wrappers/RegisterPage";
 // global context and useNavigate later
 import { useGlobalContext } from "../context/AppContext";
@@ -15,9 +16,10 @@ const initialState = {
 
 function Register() {
   const [values, setValues] = useState(initialState);
-
+  const navigate = useNavigate();
   // global context and useNavigate later
-  const { isLoading, showAlert, displayAlert } = useGlobalContext();
+  const { user, isLoading, showAlert, displayAlert, registerUser } =
+    useGlobalContext();
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -33,12 +35,24 @@ function Register() {
       );
       return;
     }
-    displayAlert("success", `${isMember ? "Login" : "Register"} successful`);
+    const currentUser = { name, email, password };
+    registerUser(currentUser);
+    if (isMember) {
+      displayAlert("danger", "Already registered");
+    }
   };
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  }, [user, navigate]);
 
   return (
     <Wrapper className="full-page">
@@ -71,7 +85,7 @@ function Register() {
           handleChange={handleChange}
         />
 
-        <button type="submit" className="btn btn-block">
+        <button type="submit" className="btn btn-block" disabled={isLoading}>
           submit
         </button>
         <p>
